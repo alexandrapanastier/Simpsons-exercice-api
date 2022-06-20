@@ -1,25 +1,33 @@
-import logo from './logo.svg';
 import './App.css';
+import axios from 'axios';
+import { useState } from 'react';
 
 function App() {
+  const [simpsons, setSimpsons] = useState([{
+
+  }]
+  )
+  const citation = () => {
+    axios
+    .get('https://simpsons-quotes-api.herokuapp.com/quotes')
+    .then(function(response) {
+      return (response.data)
+    })
+    .catch(function (error){
+      console.log(error)
+    })
+    .then(function (data) {
+      setSimpsons(data[0])
+    });
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <img src={simpsons.image} alt="Avatar" />
+      <h1>{simpsons.character}</h1>
+      <p>{simpsons.quote}</p>
+      <button onClick={citation}>Click here!</button>
     </div>
-  );
+  )
 }
 
 export default App;
